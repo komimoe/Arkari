@@ -20,6 +20,7 @@
 #include "llvm/Transforms/Obfuscation/ObfuscationOptions.h"
 #include "llvm/IR/IRBuilder.h"
 
+#include <memory>
 #include <random>
 
 #define DEBUG_TYPE "flattening"
@@ -84,7 +85,7 @@ bool Flattening::flatten(Function *f, const ObfOpt &opt) {
   // END OF SCRAMBLER
 
   // Lower switch
-  auto lower = createLegacyLowerSwitchPass();
+  auto lower = std::unique_ptr<FunctionPass>(createLegacyLowerSwitchPass());
   lower->runOnFunction(*f);
 
   // Save all original BB
@@ -215,22 +216,19 @@ bool Flattening::flatten(Function *f, const ObfOpt &opt) {
       // Get next case
       auto numToCase = switchI->findCaseDest(tbb);
 
-      // If next case == default case (switchDefault)
+      // If target not in switch (e.g., back-edge to entry block), use case 0
+      // Case 0 is bbEndOfEntry, the entry block continuation
       if (numToCase == nullptr) {
         if (pointerSize == 8) {
           numToCase = cast<ConstantInt>(
               ConstantInt::get(
                   intType,
-                  cryptoutils->scramble64(
-                      switchI->getNumCases() - 1,
-                      scrambling_key)));
+                  cryptoutils->scramble64(0, scrambling_key)));
         } else {
           numToCase = cast<ConstantInt>(
               ConstantInt::get(
                   intType,
-                  llvm::cryptoutils->scramble32(
-                      switchI->getNumCases() - 1,
-                      scrambling_key)));
+                  llvm::cryptoutils->scramble32(0, scrambling_key)));
         }
       }
 
@@ -255,23 +253,18 @@ bool Flattening::flatten(Function *f, const ObfOpt &opt) {
       auto numToCaseFalse =
           switchI->findCaseDest(bb->getTerminator()->getSuccessor(1));
 
-      // Check if next case == default case (switchDefault)
+      // If target not in switch (e.g., back-edge to entry block), use case 0
       if (numToCaseTrue == nullptr) {
-
         if (pointerSize == 8) {
           numToCaseTrue = cast<ConstantInt>(
               ConstantInt::get(
                   intType,
-                  llvm::cryptoutils->scramble64(
-                      switchI->getNumCases() - 1,
-                      scrambling_key)));
+                  llvm::cryptoutils->scramble64(0, scrambling_key)));
         } else {
           numToCaseTrue = cast<ConstantInt>(
               ConstantInt::get(
                   intType,
-                  llvm::cryptoutils->scramble32(
-                      switchI->getNumCases() - 1,
-                      scrambling_key)));
+                  llvm::cryptoutils->scramble32(0, scrambling_key)));
         }
       }
 
@@ -280,16 +273,12 @@ bool Flattening::flatten(Function *f, const ObfOpt &opt) {
           numToCaseFalse = cast<ConstantInt>(
               ConstantInt::get(
                   intType,
-                  llvm::cryptoutils->scramble64(
-                      switchI->getNumCases() - 1,
-                      scrambling_key)));
+                  llvm::cryptoutils->scramble64(0, scrambling_key)));
         } else {
           numToCaseFalse = cast<ConstantInt>(
               ConstantInt::get(
                   intType,
-                  llvm::cryptoutils->scramble32(
-                      switchI->getNumCases() - 1,
-                      scrambling_key)));
+                  llvm::cryptoutils->scramble32(0, scrambling_key)));
         }
       }
 
@@ -317,7 +306,6 @@ bool Flattening::flatten(Function *f, const ObfOpt &opt) {
   fixStack(f);
 
   lower->runOnFunction(*f);
-  delete(lower);
 
   return true;
 }
