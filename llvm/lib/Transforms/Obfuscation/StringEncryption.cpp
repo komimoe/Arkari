@@ -237,6 +237,12 @@ bool StringEncryption::runOnModule(Module &M) {
     JunkBytes.clear();
     getRandomBytes(JunkBytes, 16, 32);
     Data.insert(Data.end(), JunkBytes.begin(), JunkBytes.end());
+
+    // For UTF-16: ensure 2-byte alignment to avoid misaligned i16 loads
+    if (Entry->IsUTF16 && (Data.size() % 2) != 0) {
+      Data.push_back(0);
+    }
+
     Entry->Offset = static_cast<unsigned>(Data.size());
     if (!Entry->IsUTF16) {
       Data.insert(Data.end(), Entry->EncKey.begin(), Entry->EncKey.end());
