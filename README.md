@@ -174,6 +174,9 @@ cd build
 cmake -G Ninja   -DCMAKE_BUILD_TYPE=Release   -DCMAKE_INSTALL_PREFIX="./install"   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb"   -DLLVM_TARGETS_TO_BUILD="X86"   -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp"   -DCOMPILER_RT_BUILD_ORC=OFF   -DLLVM_BUILD_LLVM_C_DYLIB=OFF   -DLLVM_BUILD_TOOLS=ON   -DLLVM_INCLUDE_TESTS=OFF   -DLLVM_INCLUDE_EXAMPLES=OFF   -DLLVM_INCLUDE_BENCHMARKS=OFF   -DLLVM_ENABLE_ASSERTIONS=OFF   -DLLVM_RELEASE_ENABLE_LTO=OFF   -DLLVM_RELEASE_ENABLE_PGO=OFF -DLLVM_ENABLE_PIC=ON  ../llvm
 ninja j8
 ```
+## 编译时失败怎么办
+ninja 和 makefile 可以添加 -k 参数，部分文件失败不影响整个clang的使用。
+make install的时候使用-i参数，跳过编译时部分错误的文件。
 
 ## 使用
 可通过编译选项开启相应混淆，如启用间接跳转混淆：
