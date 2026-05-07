@@ -513,6 +513,12 @@ Improvements to Clang's diagnostics
 - Clang now generates a fix-it for C++20 designated initializers when the 
   initializers do not match the declaration order in the structure. 
 
+- No longer emitting a ``-Wpre-c2y-compat`` or extension diagnostic about use
+  of octal literals with a ``0o`` prefix, and no longer emitting a
+  ``-Wdeprecated-octal-literals`` diagnostic for use of octal literals without
+  a ``0o`` prefix, when the literal is expanded from a macro defined in a
+  system header. (#GH192389)
+
 Improvements to Clang's time-trace
 ----------------------------------
 
@@ -572,6 +578,12 @@ Bug Fixes in This Version
   by diagnosing invalid comma-separated argument lists. (#GH166325)
 - Clang now treats enumeration constants of fixed-underlying enums as the enumerated type. (#GH172118)
 - Fixed a failed assertion in the preprocessor when ``__has_embed`` parameters are missing parentheses. (#GH175088)
+- Fixed the interaction between ``-pedantic-errors`` and ``-Wno-error=X``.
+  Previously, ``-Wno-error=X`` failed to downgrade ``-pedantic-errors``
+  diagnostics to warnings (e.g., ``-pedantic-errors -Wno-error=long-long``
+  still emitted an error for ``long long`` in C89 mode). Now ``-Wno-error=X``
+  correctly downgrades the diagnostic to a warning, matching GCC's behavior.
+  (#GH184250)
 
 Bug Fixes to Compiler Builtins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -675,6 +687,7 @@ Miscellaneous Clang Crashes Fixed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed a crash when attempting to jump over initialization of a variable with variably modified type. (#GH175540)
+- Fixed a crash when ``decltype(__builtin_FUNCTION())`` is used as a template type argument. (#GH167433)
 
 OpenACC Specific Changes
 ------------------------

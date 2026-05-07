@@ -49,6 +49,10 @@ Major New Features
 Potentially Breaking Changes
 ----------------------------
 
+- Deprecated the :program:`clang-tidy` ``hicpp`` module. All checks have been
+  moved to other modules instead. The ``hicpp`` module will be removed
+  for the 23.x release.
+
 - Deprecated the :program:`clang-tidy` ``zircon`` module. All checks have been
   moved to the ``fuchsia`` module instead. The ``zircon`` module will be removed
   in the 24th release.
