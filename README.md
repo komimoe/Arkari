@@ -1,5 +1,8 @@
-<h1 align="center">Arkari Just ARKARI</h1>
-
+<h1 align="center">Arkari Just ARKARI</br>
+  <a href="https://oosmetrics.com/repo/komimoe/Arkari">
+    <img src="https://api.oosmetrics.com/api/v1/badge/achievement/735b2d21-bd82-4e06-9dd2-e99ccfff5ac7.svg" />
+  </a>
+</h1>
 <table align="center">
   <tr>
     <td align="center">
