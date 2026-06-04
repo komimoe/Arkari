@@ -864,7 +864,7 @@ MVT SystemZTargetLowering::getRegisterTypeForCallingConv(LLVMContext &Context,
                                                          EVT VT) const {
   // 128-bit single-element vector types are passed like other vectors,
   // not like their element type.
-  if (VT.isVector() && VT.getSizeInBits() == 128 &&
+  if (Subtarget.hasVector() && VT.isVector() && VT.getSizeInBits() == 128 &&
       VT.getVectorNumElements() == 1)
     return MVT::v16i8;
   // Pass fp16 vectors in VR(s).
@@ -8843,7 +8843,7 @@ static bool combineCCMask(SDValue &CCReg, int &CCValid, int &CCMask,
       auto Result = Op0APVal & Op1APVal;
       bool AllOnes = Result == Op1APVal;
       bool AllZeros = Result == 0;
-      bool IsLeftMostBitSet = Result[Op1APVal.getActiveBits()] != 0;
+      bool IsLeftMostBitSet = Result[Op1APVal.getActiveBits() - 1] != 0;
       return AllZeros ? 0 : AllOnes ? 3 : IsLeftMostBitSet ? 2 : 1;
     };
     SDValue Op0 = CCNode->getOperand(0);
