@@ -1,25 +1,25 @@
 <h1 align="center">Arkari Just ARKARI</br>
-  <a href="https://oosmetrics.com/repo/komimoe/Arkari">
-    <img src="https://api.oosmetrics.com/api/v1/badge/achievement/735b2d21-bd82-4e06-9dd2-e99ccfff5ac7.svg" />
-  </a>
 </h1>
 <table align="center">
   <tr>
     <td align="center">
       <a href="https://qm.qq.com/q/ZBra3aCswY">
-        <img src="./assets/qrcode_1775907901061.jpg" alt="Arkari Anime Character Group QR" width="160" />
+        <img src="./assets/qrcode_1775907901061.jpg" alt="Arkari 动漫角色交流群二维码" width="160" />
       </a>
     </td>
     <td align="center">
+      <a href="https://t.me/llvm_arkari">
+        <img src="https://img.shields.io/badge/Telegram-飞机群组-58EFF2?style=for-the-badge&logo=telegram&logoColor=white" alt="加入Telegram群组" />
+      </a>
+      <br />
       <a href="https://discord.gg/f5nDYjsrKZ">
-        <img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord Community" />
+        <img src="https://img.shields.io/badge/Discord-加入群组-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="加入Discord群组" />
       </a>
       <br />
       <a href="https://qm.qq.com/q/ZBra3aCswY">
-        <img src="https://img.shields.io/badge/QQ%20Group-795322920-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="Join QQ Group" />
+        <img src="https://img.shields.io/badge/QQ%E7%BE%A4-795322920-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
       </a>
       <br />
-      <sub>QQ Group: 795322920</sub>
     </td>
   </tr>
 </table>
