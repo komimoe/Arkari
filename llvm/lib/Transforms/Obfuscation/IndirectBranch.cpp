@@ -23,7 +23,7 @@ struct IndirectBranch : public FunctionPass {
   ObfuscationOptions *ArgsOptions;
 
   DenseMap<Function *, SmallPtrSet<Constant *, 8>>   FunctionBBs;
-  DenseMap<Function *, SmallPtrSet<BranchInst *, 8>> FunctionBrs;
+  DenseMap<Function *, SmallPtrSet<CondBrInst *, 8>> FunctionBrs;
 
   std::vector<Constant *>          BBAddrTargets;
   DenseMap<Constant *, unsigned>   BBIndex;
@@ -61,28 +61,26 @@ struct IndirectBranch : public FunctionPass {
       if (!opt.isEnabled()) {
         continue;
       }
-      SplitAllCriticalEdges(F, CriticalEdgeSplittingOptions(nullptr, nullptr));
+      Changed |= SplitAllCriticalEdges(
+                     F, CriticalEdgeSplittingOptions(nullptr, nullptr)) != 0;
 
       const uint64_t BBKey = RNG();
 
       for (auto &BB : F) {
-        if (auto *BI = dyn_cast<BranchInst>(BB.getTerminator())) {
-          if (BI->isConditional()) {
-            FunctionBrs[&F].insert(BI);
-            unsigned N = BI->getNumSuccessors();
-            for (unsigned I = 0; I < N; I++) {
-              BasicBlock *Successor = BI->getSuccessor(I);
-              auto        BBAddr = BlockAddress::get(Successor);
-              FunctionBBs[&F].insert(BBAddr);
-              if (BBKeys.count(BBAddr) == 0) {
-                BBAddrTargets.push_back(BBAddr);
-                BBKeys[BBAddr] = BBKey;
-              }
+        if (auto *BI = dyn_cast<CondBrInst>(BB.getTerminator())) {
+          FunctionBrs[&F].insert(BI);
+          for (BasicBlock *Successor : BI->successors()) {
+            auto BBAddr = BlockAddress::get(Successor);
+            FunctionBBs[&F].insert(BBAddr);
+            if (BBKeys.count(BBAddr) == 0) {
+              BBAddrTargets.push_back(BBAddr);
+              BBKeys[BBAddr] = BBKey;
             }
           }
         }
       }
     }
+    return Changed;
   }
 
   bool doInitialization(Module &M) override {
@@ -164,7 +162,7 @@ struct IndirectBranch : public FunctionPass {
 
     auto *IntTy = getPageTableIntTy(M);
     for (auto BI : FuncBrs) {
-      if (BI && BI->isConditional()) {
+      if (BI) {
         IRBuilder<> IRB(BI);
 
         auto Cond = BI->getCondition();
