@@ -9,6 +9,8 @@
 #include "llvm/IR/DiagnosticInfo.h"
 #include "llvm/Support/JSON.h"
 
+#include <llvm/Support/VirtualFileSystem.h>
+
 using namespace llvm;
 
 namespace llvm {
@@ -54,11 +56,12 @@ std::shared_ptr<ObfuscationOptions> ObfuscationOptions::readConfigFile(
   if (FileName.str().empty()) {
     return result;
   }
-  if (!sys::fs::exists(FileName)) {
+  auto vfs = llvm::vfs::getRealFileSystem();
+
+  if (!vfs->exists(FileName)) {
     report_fatal_error("Config file doesn't exist: " + FileName);
   }
-
-  auto BufOrErr = MemoryBuffer::getFileOrSTDIN(FileName);
+  auto BufOrErr = vfs->getBufferForFile(FileName);
   if (const auto ErrCode = BufOrErr.getError()) {
     report_fatal_error(
         ("Can not read config file: " + ErrCode.message()).c_str());
@@ -75,7 +78,6 @@ std::shared_ptr<ObfuscationOptions> ObfuscationOptions::readConfigFile(
   if (!rootObj) {
     report_fatal_error("Json root is not an object.");
   }
-
   static auto procObj = [](const std::shared_ptr<ObfOpt> &obfOpt,
                            const detail::DenseMapPair<
                              json::ObjectKey, json::Value> &
