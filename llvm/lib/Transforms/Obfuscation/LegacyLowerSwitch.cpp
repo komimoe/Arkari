@@ -305,7 +305,7 @@ BasicBlock *LowerSwitch::switchConvert(CaseItr      Begin, CaseItr End,
   F->insert(++OrigBlock->getIterator(), NewNode);
   Comp->insertInto(NewNode, NewNode->end());
 
-  BranchInst::Create(LBranch, RBranch, Comp, NewNode);
+  CondBrInst::Create(Comp, LBranch, RBranch, NewNode);
   return NewNode;
 }
 
@@ -350,7 +350,7 @@ BasicBlock *LowerSwitch::newLeafBlock(CaseRange & Leaf, Value *Val,
 
   // Make the conditional branch...
   BasicBlock *Succ = Leaf.BB;
-  BranchInst::Create(Succ, Default, Comp, NewLeaf);
+  CondBrInst::Create(Comp, Succ, Default, NewLeaf);
 
   // If there were any PHI nodes in this successor, rewrite one entry
   // from OrigBlock to come from NewLeaf.
@@ -433,7 +433,7 @@ void LowerSwitch::processSwitchInst(SwitchInst *                   SI,
 
   // If there is only the default destination, just branch.
   if (!SI->getNumCases()) {
-    BranchInst::Create(Default, CurBlock);
+    UncondBrInst::Create(Default, CurBlock);
     SI->eraseFromParent();
     return;
   }
@@ -520,7 +520,7 @@ void LowerSwitch::processSwitchInst(SwitchInst *                   SI,
 
     // If there are no cases left, just branch.
     if (Cases.empty()) {
-      BranchInst::Create(Default, CurBlock);
+      UncondBrInst::Create(Default, CurBlock);
       SI->eraseFromParent();
       // As all the cases have been replaced with a single branch, only keep
       // one entry in the PHI nodes.
@@ -539,7 +539,7 @@ void LowerSwitch::processSwitchInst(SwitchInst *                   SI,
   // if-then statements go to this and the PHI nodes are happy.
   BasicBlock *NewDefault = BasicBlock::Create(SI->getContext(), "NewDefault");
   F->insert(Default->getIterator(), NewDefault);
-  BranchInst::Create(Default, NewDefault);
+  UncondBrInst::Create(Default, NewDefault);
 
   BasicBlock *SwitchBlock =
       switchConvert(Cases.begin(), Cases.end(), LowerBound, UpperBound, Val,
@@ -550,7 +550,7 @@ void LowerSwitch::processSwitchInst(SwitchInst *                   SI,
   fixPhis(Default, OrigBlock, NewDefault, NrOfDefaults);
 
   // Branch to our shiny new if-then stuff...
-  BranchInst::Create(SwitchBlock, OrigBlock);
+  UncondBrInst::Create(SwitchBlock, OrigBlock);
 
   // We are now done with the switch instruction, delete it.
   BasicBlock *OldDefault = SI->getDefaultDest();
