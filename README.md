@@ -9,6 +9,8 @@
     </td>
     <td align="center">
       <a href="https://t.me/llvm_arkari">
+        <td align="center">
+      <a href="https://t.me/llvm_arkari">
         <img src="https://img.shields.io/badge/Telegram-飞机群组-58EFF2?style=for-the-badge&logo=telegram&logoColor=white" alt="加入Telegram群组" />
       </a>
       <br />
@@ -19,6 +21,11 @@
       <a href="https://qm.qq.com/q/ZBra3aCswY">
         <img src="https://img.shields.io/badge/QQ%E7%BE%A4-795322920-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
       </a>
+      <a href="https://codextopapi.com/">
+        <img src="https://img.shields.io/badge/[AD]AI中转车-QQ Group 441337845-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
+      </a>
+      <br/>
+    </td>
       <br />
     </td>
   </tr>
@@ -46,33 +53,39 @@
 <h3 align="center">Yet another LLVM-based obfuscator derived from Goron</h3>
 
 ## 介绍
+
 当前支持特性：
- - 混淆过程间相关
- - 间接跳转,并加密跳转目标(`-mllvm -irobf-indbr`)
- - 间接函数调用,并加密目标函数地址(`-mllvm -irobf-icall`)
- - 间接全局变量引用,并加密变量地址(`-mllvm -irobf-indgv`)
- - 字符串(c string)加密功能(`-mllvm -irobf-cse`)
- - 过程相关控制流平坦混淆(`-mllvm -irobf-fla`)
- - 整数常量加密(`-mllvm -irobf-cie`) (Win64-MT-19.1.3-obf1.6.0 or later)
- - 浮点常量加密(`-mllvm -irobf-cfe`) (Win64-MT-19.1.3-obf1.6.0 or later)
- - Microsoft CXXABI RTTI Name 擦除器 (实验性功能!) [需要指定配置文件路径 以及 配置文件`randomSeed`字段(32字节，不足会在后面补0，超过会截断)] (`-mllvm -irobf-rtti`) (Win64-MT-20.1.7-obf1.7.0 or later)
- - 全部 (`-mllvm -irobf-indbr -mllvm -irobf-icall -mllvm -irobf-indgv -mllvm -irobf-cse -mllvm -irobf-fla -mllvm -irobf-cie -mllvm -irobf-cfe -mllvm -irobf-rtti`)
- - 或直接通过配置文件管理(`-mllvm -arkari-cfg="配置文件路径|Your config path"`) (Win64-MT-20.1.7-obf1.7.0 or later)
+
+- 混淆过程间相关
+- 间接跳转,并加密跳转目标(`-mllvm -irobf-indbr`)
+- 间接函数调用,并加密目标函数地址(`-mllvm -irobf-icall`)
+- 间接全局变量引用,并加密变量地址(`-mllvm -irobf-indgv`)
+- 字符串(c string)加密功能(`-mllvm -irobf-cse`)
+- 过程相关控制流平坦混淆(`-mllvm -irobf-fla`)
+- 整数常量加密(`-mllvm -irobf-cie`) (Win64-MT-19.1.3-obf1.6.0 or later)
+- 浮点常量加密(`-mllvm -irobf-cfe`) (Win64-MT-19.1.3-obf1.6.0 or later)
+- Microsoft CXXABI RTTI Name 擦除器 (实验性功能!) [需要指定配置文件路径 以及 配置文件`randomSeed`字段(32字节，不足会在后面补0，超过会截断)] (`-mllvm -irobf-rtti`) (Win64-MT-20.1.7-obf1.7.0 or later)
+- 全部 (`-mllvm -irobf-indbr -mllvm -irobf-icall -mllvm -irobf-indgv -mllvm -irobf-cse -mllvm -irobf-fla -mllvm -irobf-cie -mllvm -irobf-cfe -mllvm -irobf-rtti`)
+- 或直接通过配置文件管理(`-mllvm -arkari-cfg="配置文件路径|Your config path"`) (Win64-MT-20.1.7-obf1.7.0 or later)
 
 对比于goron的改进：
- - 由于作者明确表示暂时(至少几万年吧)不会跟进llvm版本和不会继续更新. 所以有了这个版本(https://github.com/amimo/goron/issues/29)
- - 更新了llvm版本
- - 编译时输出文件名, 防止憋死强迫症
- - 修复了亿点点已知的bug
- ```
- - 修复了混淆后SEH爆炸的问题
- - 修复了dll导入的全局变量会被混淆导致丢失__impl前缀的问题
- - 修复了某些情况下配合llvm2019(2022)插件会导致参数重复添加无法编译的问题
- - 修复了x86间接调用炸堆栈的问题
- - ...
- ```
+
+- 由于作者明确表示暂时(至少几万年吧)不会跟进llvm版本和不会继续更新. 所以有了这个版本(https://github.com/amimo/goron/issues/29)
+- 更新了llvm版本
+- 编译时输出文件名, 防止憋死强迫症
+- 修复了亿点点已知的bug
+
+```
+- 修复了混淆后SEH爆炸的问题
+- 修复了dll导入的全局变量会被混淆导致丢失__impl前缀的问题
+- 修复了某些情况下配合llvm2019(2022)插件会导致参数重复添加无法编译的问题
+- 修复了x86间接调用炸堆栈的问题
+- ...
+```
+
 ## 生成VS2026开发调试环境项目(X86+AArch64 Target)
- - Windows + Visual Studio 18 2026 + vcpkg
+
+- Windows + Visual Studio 18 2026 + vcpkg
 
 ```
 install vcpkg and set VCPKG_ROOT PATH
@@ -113,9 +126,11 @@ cmake -DCMAKE_CXX_FLAGS="-DLIBXML_STATIC /utf-8 /EHsc" ^
       -G "Visual Studio 18 2026" ^
       ../llvm
 ```
+
 ## 编译(Windows x64 runtime with X86+AArch64 Target)
 
 - Windows + Visual Studio 18 2026 + ninja + vcpkg for libxml2, libLZMA, zlib
+
 ```
 install ninja in your PATH
 install vcpkg and set VCPKG_ROOT PATH
@@ -163,7 +178,9 @@ ninja install
 ```
 
 ## 编译(macOS AArch64 runtime with AArch64+x86 Target)
+
 - macOS + XCode Command Tools + brew + ninja
+
 ```
 xcode-select --install
 brew install ninja
@@ -184,7 +201,9 @@ cmake -C ../clang/cmake/caches/Release.cmake \
 ninja
 ninja install
 ```
+
 ## 编译(Linux x86+AArch64 Target)
+
 ```
 mkdir build
 cd build
@@ -205,27 +224,33 @@ cmake -G Ninja \
 ninja -j8
 ninja install
 ```
+
 ## 编译时失败怎么办
+
 ninja 和 makefile 可以添加 -k 参数，部分文件失败不影响整个clang的使用。
 make install的时候使用-i参数，跳过编译时部分错误的文件。
 
 ## 使用
+
 可通过编译选项开启相应混淆，如启用间接跳转混淆：
 
 ```
 $ path_to_the/build/bin/clang -mllvm -irobf -mllvm --irobf-indbr test.c
 ```
+
 对于使用autotools的工程：
+
 ```
 $ CC=path_to_the/build/bin/clang or CXX=path_to_the/build/bin/clang
 $ CFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" or CXXFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" (or any other obfuscation-related flags)
 $ ./configure
 $ make
 ```
+
 对于使用Visual Studio的项目，可以使用Visual Studio插件： https://github.com/KomiMoe/llvm2019
 
-
 ## 可以通过**annotate**对特定函数**开启/关闭**指定混淆选项：
+
 (Win64-19.1.0-rc3-obf1.5.0-rc2 or later)
 
 annotate的优先级**永远高于**命令行参数
@@ -234,7 +259,8 @@ annotate的优先级**永远高于**命令行参数
 
 字符串加密基于LLVM Module，所以必须在编译选项中加入字符串加密选项，否则不会开启
 
-可用的annotate  flag:
+可用的annotate flag:
+
 - `fla`
 - `icall`
 - `indbr`
@@ -272,24 +298,24 @@ int fool(auto a, auto b){
 }
 ```
 
-
-
 ## 可以使用下列几种方法之一单独控制某个混淆Pass的强度
+
 (Win64-19.1.0-rc3-obf1.5.1-rc5 or later)
 
 如果不指定强度则默认强度为0，annotate的优先级永远高于命令行参数
 
 可用的Pass:
+
 - `icall` (强度范围: 0-3)
 - `indbr` (强度范围: 0-3)
 - `indgv` (强度范围: 0-3)
 - `cie` (强度范围: 0-3)
 - `cfe` (强度范围: 0-3)
 
-1.通过**annotate**对特定函数指定混淆强度：
+  1.通过**annotate**对特定函数指定混淆强度：
 
- `^flag=1` 表示当前函数设置某功能强度等级(此处为1)
- 
+`^flag=1` 表示当前函数设置某功能强度等级(此处为1)
+
 ```cpp
 //^icall=表示指定icall的强度
 //+icall表示当前函数启用icall混淆, 如果你在命令行中启用了icall则无需添加+icall
@@ -305,17 +331,18 @@ int main() {
 
 Eg.间接函数调用,并加密目标函数地址,强度设置为3(`-mllvm -irobf-icall -mllvm -level-icall=3`)
 
-
 ## 通过配置文件管理混淆参数
+
 (Win64-MT-20.1.7-obf1.7.0 or later)
 
-编译参数加上：`-mllvm -arkari-cfg="配置文件路径|Your config path"` 
+编译参数加上：`-mllvm -arkari-cfg="配置文件路径|Your config path"`
 
 路径可以是绝对路径，或者相对于编译器工作目录的相对路径
 
 配置文件格式为json
 
 Eg :
+
 ```json
 {
   "randomSeed": "zX0^bS5|vP0@xO4+sF3[pX8,fG2^rT9?",
@@ -349,7 +376,6 @@ Eg :
     "enable": true
   }
 }
-
 ```
 
 ## Acknowledgements
@@ -358,26 +384,26 @@ Thanks to [JetBrains](https://www.jetbrains.com/?from=KomiMoe) for providing fre
 
 [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharperCPP_icon.png" alt="ReSharper C++ logo." width=200>](https://www.jetbrains.com/resharper-cpp/?from=KomiMoe)
 
-
-
 ## Star History
 
-<a href="https://www.star-history.com/#komimoe/Arkari&date">
+<a href="https://star-history.dera.page/#komimoe/Arkari&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=komimoe/Arkari&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=komimoe/Arkari&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=komimoe/Arkari&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=komimoe/Arkari&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=komimoe/Arkari&type=Date" />
+   <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=komimoe/Arkari&type=Date" />
  </picture>
 </a>
 
 ## 参考资源
 
-+ [Goron](https://github.com/amimo/goron)
-+ [Hikari](https://github.com/HikariObfuscator/Hikari)
-+ [ollvm](https://github.com/obfuscator-llvm/obfuscator)
+- [Goron](https://github.com/amimo/goron)
+- [Hikari](https://github.com/HikariObfuscator/Hikari)
+- [ollvm](https://github.com/obfuscator-llvm/obfuscator)
 
 ## License
+
 本项目采用 混合协议 开源，因此使用本项目时，你需要注意以下几点：
+
 1. 第三方库代码或修改部分遵循其原始开源许可.
 2. 本项目获取部分项目授权而不受部分约束
 3. 项目其余逻辑代码采用[本仓库开源许可](./LICENSE).

@@ -7,17 +7,20 @@
         <img src="./assets/qrcode_1775907901061.jpg" alt="Arkari 动漫角色交流群二维码" width="160" />
       </a>
     </td>
-    <td align="center">
+        <td align="center">
       <a href="https://t.me/llvm_arkari">
-        <img src="https://img.shields.io/badge/Telegram-TelegramGroup-58EFF2?style=for-the-badge&logo=telegram&logoColor=white" alt="加入Telegram群组" />
+        <img src="https://img.shields.io/badge/Telegram-飞机群组-58EFF2?style=for-the-badge&logo=telegram&logoColor=white" alt="加入Telegram群组" />
       </a>
       <br />
       <a href="https://discord.gg/f5nDYjsrKZ">
-        <img src="https://img.shields.io/badge/Discord-DiscordServer-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="加入Discord群组" />
+        <img src="https://img.shields.io/badge/Discord-加入群组-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="加入Discord群组" />
       </a>
       <br />
       <a href="https://qm.qq.com/q/ZBra3aCswY">
-        <img src="https://img.shields.io/badge/QQGroup-795322920-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
+        <img src="https://img.shields.io/badge/QQ%E7%BE%A4-795322920-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
+      </a>
+      <a href="https://codextopapi.com/">
+        <img src="https://img.shields.io/badge/[AD]AI中转站加群-441337845-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
       </a>
       <br />
     </td>
@@ -46,31 +49,35 @@
 <h3 align="center">Yet another LLVM-based obfuscator derived from Goron</h3>
 
 ## Introduction
+
 Supported features:
- - Inter-procedural obfuscation
- - Indirect jumps with encrypted jump targets (`-mllvm -irobf-indbr`)
- - Indirect function calls with encrypted target function addresses (`-mllvm -irobf-icall`)
- - Indirect global variable references with encrypted variable addresses (`-mllvm -irobf-indgv`)
- - C string encryption (`-mllvm -irobf-cse`)
- - Inter-procedural control flow flattening obfuscation (`-mllvm -irobf-fla`)
- - Integer constant encryption (`-mllvm -irobf-cie`) (Win64-MT-19.1.3-obf1.6.0 or later)
- - Floating-point constant encryption (`-mllvm -irobf-cfe`) (Win64-MT-19.1.3-obf1.6.0 or later)
- - Microsoft CXXABI RTTI Name Eraser (experimental) [requires a configuration file path and a `randomSeed` field in that file (32 bytes; pad with 0 if shorter, truncate if longer)] (`-mllvm -irobf-rtti`) (Win64-MT-20.1.7-obf1.7.0 or later)
- - All features (`-mllvm -irobf-indbr -mllvm -irobf-icall -mllvm -irobf-indgv -mllvm -irobf-cse -mllvm -irobf-fla -mllvm -irobf-cie -mllvm -irobf-cfe -mllvm -irobf-rtti`)
- - Or manage via a configuration file (`-mllvm -arkari-cfg="Configuration file path|Your config path"`) (Win64-MT-20.1.7-obf1.7.0 or later)
+
+- Inter-procedural obfuscation
+- Indirect jumps with encrypted jump targets (`-mllvm -irobf-indbr`)
+- Indirect function calls with encrypted target function addresses (`-mllvm -irobf-icall`)
+- Indirect global variable references with encrypted variable addresses (`-mllvm -irobf-indgv`)
+- C string encryption (`-mllvm -irobf-cse`)
+- Inter-procedural control flow flattening obfuscation (`-mllvm -irobf-fla`)
+- Integer constant encryption (`-mllvm -irobf-cie`) (Win64-MT-19.1.3-obf1.6.0 or later)
+- Floating-point constant encryption (`-mllvm -irobf-cfe`) (Win64-MT-19.1.3-obf1.6.0 or later)
+- Microsoft CXXABI RTTI Name Eraser (experimental) [requires a configuration file path and a `randomSeed` field in that file (32 bytes; pad with 0 if shorter, truncate if longer)] (`-mllvm -irobf-rtti`) (Win64-MT-20.1.7-obf1.7.0 or later)
+- All features (`-mllvm -irobf-indbr -mllvm -irobf-icall -mllvm -irobf-indgv -mllvm -irobf-cse -mllvm -irobf-fla -mllvm -irobf-cie -mllvm -irobf-cfe -mllvm -irobf-rtti`)
+- Or manage via a configuration file (`-mllvm -arkari-cfg="Configuration file path|Your config path"`) (Win64-MT-20.1.7-obf1.7.0 or later)
 
 Improvements over Goron:
- - Created because the original author stated they would not update LLVM or continue development for the foreseeable future ("tens of thousands of years") (https://github.com/amimo/goron/issues/29)
- - Updated LLVM version
- - Print output file names during compilation to make builds easier to track
- - Fixed numerous known bugs
- ```
- - Fixed SEH explosion issues after obfuscation
- - Fixed issue where global variables imported by DLLs were obfuscated, losing the `__impl` prefix
- - Fixed issue where certain scenarios with LLVM2019 (2022) plugins caused duplicate parameter additions, preventing compilation
- - Fixed stack overflow issue with x86 indirect calls
- - ...
- ```
+
+- Created because the original author stated they would not update LLVM or continue development for the foreseeable future ("tens of thousands of years") (https://github.com/amimo/goron/issues/29)
+- Updated LLVM version
+- Print output file names during compilation to make builds easier to track
+- Fixed numerous known bugs
+
+```
+- Fixed SEH explosion issues after obfuscation
+- Fixed issue where global variables imported by DLLs were obfuscated, losing the `__impl` prefix
+- Fixed issue where certain scenarios with LLVM2019 (2022) plugins caused duplicate parameter additions, preventing compilation
+- Fixed stack overflow issue with x86 indirect calls
+- ...
+```
 
 ## Generate VS2026 debug project (x86+AArch64 Targets)
 
@@ -167,7 +174,9 @@ ninja install
 ```
 
 ## Compilation (macOS AArch64 runtime with AArch64+x86 Targets)
+
 - macOS + XCode Command Tools + brew + ninja
+
 ```
 xcode-select --install
 brew install ninja
@@ -190,6 +199,7 @@ ninja install
 ```
 
 ## Compilation (Linux x86+AArch64 Target)
+
 ```
 mkdir build
 cd build
@@ -212,10 +222,12 @@ ninja install
 ```
 
 ## What if compilation fails?
+
 Use `-k` with Ninja/Make to continue when some files fail.
 When running `make install`, use `-i` to skip files that failed to build.
 
 ## Usage
+
 Enable specific obfuscation features via compiler options. For example, to enable indirect jump obfuscation:
 
 ```
@@ -223,6 +235,7 @@ $ path_to_the/build/bin/clang -mllvm -irobf -mllvm --irobf-indbr test.c
 ```
 
 For Autotools projects:
+
 ```
 $ CC=path_to_the/build/bin/clang or CXX=path_to_the/build/bin/clang
 $ CFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" or CXXFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" (or any other obfuscation-related flags)
@@ -233,6 +246,7 @@ $ make
 For Visual Studio projects, you can use the Visual Studio plugin: https://github.com/KomiMoe/llvm2019
 
 ## Enable or Disable Obfuscation Options per Function with **Annotate**:
+
 (Win64-19.1.0-rc3-obf1.5.0-rc2 or later)
 
 Annotations **always override** command-line parameters.
@@ -242,6 +256,7 @@ Annotations **always override** command-line parameters.
 String encryption is module-scoped in LLVM, so the string encryption option must be included in the compilation options; otherwise, it will not be enabled.
 
 Available annotation flags:
+
 - `fla`
 - `icall`
 - `indbr`
@@ -266,7 +281,7 @@ int main(int argc, char** argv) {
 
 If you do not wish to enable passes for the entire program, you can add only `-mllvm -irobf` to the compilation command-line parameters and use **annotate** to control which functions to obfuscate. Enabling only **-irobf** without **annotate** will not run any obfuscation passes.
 
-Using only **annotate** without any obfuscation command-line parameters will ***not*** enable any passes.
+Using only **annotate** without any obfuscation command-line parameters will **_not_** enable any passes.
 
 You **cannot** enable and disable the same obfuscation parameter at the same time!
 The following scenario will result in an error:
@@ -279,11 +294,13 @@ int fool(auto a, auto b){
 ```
 
 ## Control the Intensity of Specific Obfuscation Passes Using One of the Following Methods
+
 (Win64-19.1.0-rc3-obf1.5.1-rc5 or later)
 
 If no intensity is specified, the default intensity is 0. The priority of annotations always overrides command-line parameters.
 
 Available passes:
+
 - `icall` (Intensity range: 0-3)
 - `indbr` (Intensity range: 0-3)
 - `indgv` (Intensity range: 0-3)
@@ -292,8 +309,8 @@ Available passes:
 
 1. Set per-function intensity with **annotate**:
 
- `^flag=1` sets the intensity level for the current function (here, 1)
- 
+`^flag=1` sets the intensity level for the current function (here, 1)
+
 ```cpp
 // ^icall= specifies the intensity of icall
 // +icall indicates enabling icall obfuscation for the current function; if you have enabled icall in the command line, you do not need to add +icall
@@ -310,6 +327,7 @@ int main() {
 E.g., indirect function calls with encrypted target function addresses, intensity set to 3 (`-mllvm -irobf-icall -mllvm -level-icall=3`)
 
 ## Manage Obfuscation Parameters via a Configuration File
+
 (Win64-MT-20.1.7-obf1.7.0 or later)
 
 Add to compilation parameters: `-mllvm -arkari-cfg="Configuration file path|Your config path"`
@@ -319,6 +337,7 @@ The path can be absolute or relative to the compiler's working directory.
 The configuration file format is JSON.
 
 E.g.:
+
 ```json
 {
   "randomSeed": "zX0^bS5|vP0@xO4+sF3[pX8,fG2^rT9?",
@@ -362,22 +381,24 @@ Thanks to [JetBrains](https://www.jetbrains.com/?from=KomiMoe) for providing fre
 
 ## Star History
 
-<a href="https://www.star-history.com/#komimoe/Arkari&date">
+<a href="https://star-history.dera.page/#komimoe/Arkari&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=komimoe/Arkari&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=komimoe/Arkari&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=komimoe/Arkari&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=komimoe/Arkari&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=komimoe/Arkari&type=Date" />
+   <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=komimoe/Arkari&type=Date" />
  </picture>
 </a>
 
 ## References
 
-+ [Goron](https://github.com/amimo/goron)
-+ [Hikari](https://github.com/HikariObfuscator/Hikari)
-+ [ollvm](https://github.com/obfuscator-llvm/obfuscator)
+- [Goron](https://github.com/amimo/goron)
+- [Hikari](https://github.com/HikariObfuscator/Hikari)
+- [ollvm](https://github.com/obfuscator-llvm/obfuscator)
 
 ## License
+
 This project is released under a mixed license. Please note:
+
 1. Third-party library code or modified parts adhere to their original open-source licenses.
 2. This project has obtained partial project authorization and is not subject to certain constraints.
 3. The remaining logic code of the project adopts the [license of this repository](./LICENSE).
