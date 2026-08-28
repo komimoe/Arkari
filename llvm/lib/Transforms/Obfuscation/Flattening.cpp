@@ -182,21 +182,21 @@ bool Flattening::flatten(Function *f) {
 
   // Move first BB on top
   insertBlock->moveBefore(bbLoopEntry);
-  BranchInst::Create(bbLoopEntry, insertBlock);
+  UncondBrInst::Create(bbLoopEntry, insertBlock);
 
   // loopEnd jump to loopEntry
-  BranchInst::Create(bbLoopEntry, bbLoopEnd);
+  UncondBrInst::Create(bbLoopEntry, bbLoopEnd);
 
   auto swDefault =
       BasicBlock::Create(f->getContext(), "switchDefault", f, bbLoopEnd);
-  BranchInst::Create(bbLoopEnd, swDefault);
+  UncondBrInst::Create(bbLoopEnd, swDefault);
 
   // Create switch instruction itself and set condition
   auto switchI = SwitchInst::Create(switchCondition, swDefault, 0, bbLoopEntry);
 
   // Remove branch jump from 1st BB and make a jump to the while
   ReplaceInstWithInst(f->begin()->getTerminator(),
-                      BranchInst::Create(bbLoopEntry));
+                      UncondBrInst::Create(bbLoopEntry));
 
   // Put all BB in the switch (case 值使用纯随机表)
   for (auto bi = origBB.begin(); bi != origBB.end(); ++bi) {
@@ -247,10 +247,7 @@ bool Flattening::flatten(Function *f) {
     }
 
     // If it's a conditional jump
-    if (bb->getTerminator()->getNumSuccessors() == 2 &&
-        isa<BranchInst>(bb->getTerminator())) {
-      auto *br = cast<BranchInst>(bb->getTerminator());
-
+    if (auto *br = dyn_cast<CondBrInst>(bb->getTerminator())) {
       auto *succT = br->getSuccessor(0);
       auto *succF = br->getSuccessor(1);
 
