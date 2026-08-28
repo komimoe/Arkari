@@ -21,8 +21,9 @@
       <a href="https://qm.qq.com/q/ZBra3aCswY">
         <img src="https://img.shields.io/badge/QQ%E7%BE%A4-795322920-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
       </a>
+      <br />
       <a href="https://codextopapi.com/">
-        <img src="https://img.shields.io/badge/[AD]AI中转车-QQ Group 441337845-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
+        <img src="https://img.shields.io/badge/[AD]AI中转大巴车-QQ群 441337845-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
       </a>
       <br/>
     </td>
