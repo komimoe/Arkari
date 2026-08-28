@@ -9,18 +9,19 @@
     </td>
         <td align="center">
       <a href="https://t.me/llvm_arkari">
-        <img src="https://img.shields.io/badge/Telegram-飞机群组-58EFF2?style=for-the-badge&logo=telegram&logoColor=white" alt="加入Telegram群组" />
+        <img src="https://img.shields.io/badge/Telegram-Group-58EFF2?style=for-the-badge&logo=telegram&logoColor=white" alt="加入Telegram群组" />
       </a>
       <br />
       <a href="https://discord.gg/f5nDYjsrKZ">
-        <img src="https://img.shields.io/badge/Discord-加入群组-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="加入Discord群组" />
+        <img src="https://img.shields.io/badge/Discord-Server-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="加入Discord群组" />
       </a>
       <br />
       <a href="https://qm.qq.com/q/ZBra3aCswY">
         <img src="https://img.shields.io/badge/QQ%E7%BE%A4-795322920-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
       </a>
+      <br />
       <a href="https://codextopapi.com/">
-        <img src="https://img.shields.io/badge/[AD]AI中转站加群-441337845-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="加入QQ群聊" />
+        <img src="https://img.shields.io/badge/[AD]AI intelligent agent provider-QQGroup 441337845-12B7F5?style=for-the-badge&logo=tencentqq&logoColor=white" alt="" />
       </a>
       <br />
     </td>
