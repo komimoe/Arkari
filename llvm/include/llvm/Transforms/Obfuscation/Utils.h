@@ -54,4 +54,5 @@ void enhancedPageTable(const CreatePageTableArgs &args,
 Value *buildPageTableDecryptIR(const BuildDecryptArgs &args);
 Value *encryptConstant(Constant *plainConstant, Instruction *insertBefore,
                        std::mt19937_64 &rng, unsigned level);
+APInt getRandomAPIntStd(unsigned BitWidth, std::mt19937_64 &RNG);
 #endif

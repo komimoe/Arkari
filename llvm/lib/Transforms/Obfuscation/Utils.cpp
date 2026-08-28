@@ -540,15 +540,13 @@ Value *encryptConstant(Constant *plainConstant, Instruction *insertBefore,
       isPointerTy()) {
     return plainConstant;
   }
-  auto BitWidth = plainConstant->getType()->getPrimitiveSizeInBits().
+  unsigned BitWidth = plainConstant->getType()->getPrimitiveSizeInBits().
                                  getFixedValue();
   if (BitWidth < 8) {
     return plainConstant;
   }
-
-  const auto Key = ConstantInt::get(
-      IntegerType::get(Ctx, BitWidth),
-      rng());
+  APInt APKey = getRandomAPIntStd(BitWidth, rng);
+  const auto Key = ConstantInt::get(IntegerType::get(Ctx, BitWidth), APKey);
 
   const auto PlainCast =
       ConstantExpr::getBitCast(plainConstant, Key->getType());
@@ -582,4 +580,23 @@ Value *encryptConstant(Constant *plainConstant, Instruction *insertBefore,
   }
   Load = IRB.CreateAdd(Load, Key);
   return IRB.CreateBitCast(Load, OriginValTy);
+}
+
+APInt getRandomAPIntStd(unsigned BitWidth, std::mt19937_64 &RNG) {
+  if (BitWidth == 0)
+    return APInt(1, 0);
+  unsigned NumWords = APInt::getNumWords(BitWidth);
+  std::vector<uint64_t> Words;
+  Words.reserve(NumWords);
+  for (unsigned i = 0; i < NumWords; ++i) {
+    Words.push_back(RNG());
+  }
+  APInt Result(BitWidth, Words);
+  unsigned BitsInLastWord = BitWidth % 64;
+  if (BitsInLastWord != 0) {
+    uint64_t Mask = (1ULL << BitsInLastWord) - 1;
+    APInt MaskAPInt(BitWidth, Mask);
+    Result &= MaskAPInt;
+  }
+  return Result;
 }
