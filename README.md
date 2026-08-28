@@ -87,11 +87,12 @@ run:
 mkdir build_vsproj
 cd build_vsproj
 
-cmake -DCMAKE_CXX_FLAGS="/utf-8 /EHsc" ^
-      -DCMAKE_C_FLAGS="/utf-8" ^
+cmake -DCMAKE_CXX_FLAGS="-DLIBXML_STATIC /utf-8 /EHsc" ^
+      -DCMAKE_C_FLAGS="-DLIBXML_STATIC /utf-8" ^
       -DCMAKE_INSTALL_PREFIX="./install" ^
       -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded ^
       -DCMAKE_BUILD_TYPE=Debug ^
+      -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON ^
       -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" ^
       -DLLVM_TARGETS_TO_BUILD="X86;AArch64" ^
       -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" ^
@@ -107,7 +108,6 @@ cmake -DCMAKE_CXX_FLAGS="/utf-8 /EHsc" ^
       -DLLVM_INCLUDE_EXAMPLES=OFF ^
       -DLLVM_INCLUDE_BENCHMARKS=OFF ^
       -DLLVM_ENABLE_ASSERTIONS=ON ^
-      -DLLVM_RELEASE_ENABLE_LTO=OFF ^
       -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" ^
       -DVCPKG_TARGET_TRIPLET="x64-windows-static" ^
       -G "Visual Studio 18 2026" ^
@@ -130,11 +130,13 @@ run:
 mkdir build_ninja
 cd build_ninja
 
-cmake -DCMAKE_CXX_FLAGS="-DLIBXML_STATIC /utf-8 /EHsc" ^
+cmake -C ../clang/cmake/caches/Release.cmake ^
+      -DCMAKE_CXX_FLAGS="-DLIBXML_STATIC /utf-8 /EHsc" ^
       -DCMAKE_C_FLAGS="-DLIBXML_STATIC /utf-8" ^
       -DCMAKE_INSTALL_PREFIX="./install" ^
       -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded ^
       -DCMAKE_BUILD_TYPE=Release ^
+      -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON ^
       -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" ^
       -DLLVM_TARGETS_TO_BUILD="X86;AArch64" ^
       -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" ^
@@ -150,7 +152,6 @@ cmake -DCMAKE_CXX_FLAGS="-DLIBXML_STATIC /utf-8 /EHsc" ^
       -DLLVM_INCLUDE_EXAMPLES=OFF ^
       -DLLVM_INCLUDE_BENCHMARKS=OFF ^
       -DLLVM_ENABLE_ASSERTIONS=OFF ^
-      -DLLVM_RELEASE_ENABLE_LTO=OFF ^
       -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" ^
       -DVCPKG_TARGET_TRIPLET="x64-windows-static" ^
       -G "Ninja" ^
