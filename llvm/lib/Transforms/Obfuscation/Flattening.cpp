@@ -82,6 +82,14 @@ bool Flattening::runOnFunction(Function &F) {
 bool Flattening::flatten(Function *f) {
   SmallVector<BasicBlock *, 32> origBB;
 
+  // Validate the CFG before lowering switches, because lowering mutates the
+  // function even when flattening later decides that it cannot handle it.
+  for (BasicBlock &BB : *f) {
+    Instruction *Term = BB.getTerminator();
+    if (BB.isEHPad() || isa<InvokeInst, CallBrInst, IndirectBrInst>(Term))
+      return false;
+  }
+
   auto &Ctx = f->getContext();
   Type *intType = Type::getInt32Ty(Ctx);
   if (pointerSize == 8) {
@@ -108,10 +116,6 @@ bool Flattening::flatten(Function *f) {
   for (auto i = f->begin(); i != f->end(); ++i) {
     auto bb = &*i;
     origBB.push_back(bb);
-
-    if (isa<InvokeInst>(bb->getTerminator()) || bb->isEHPad()) {
-      return false;
-    }
   }
 
   // Nothing to flatten
