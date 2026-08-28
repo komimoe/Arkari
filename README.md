@@ -162,52 +162,44 @@ ninja install
 
 ```
 
-## 编译(macOS AArch64 runtime with AArch64+X86 Target)
+## 编译(macOS AArch64 runtime with AArch64+x86 Target)
 - macOS + XCode Command Tools + brew + ninja
 ```
 xcode-select --install
 brew install ninja
 
-cmake -G Ninja \
+cmake -C ../clang/cmake/caches/Release.cmake \
+  -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="./install" \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" \
   -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
-  -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
-  -DCOMPILER_RT_BUILD_ORC=OFF \
   -DLLVM_BUILD_LLVM_C_DYLIB=ON \
   -DLLVM_BUILD_TOOLS=ON \
   -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_INCLUDE_EXAMPLES=OFF \
   -DLLVM_INCLUDE_BENCHMARKS=OFF \
-  -DLLVM_ENABLE_ASSERTIONS=OFF \
-  -DLLVM_RELEASE_ENABLE_LTO=OFF \
-  -DLLVM_RELEASE_ENABLE_PGO=OFF \
   ../llvm
 
 ninja
 ninja install
 ```
-## 编译(Linux x86_64 Target)
+## 编译(Linux x86+AArch64 Target)
 ```
 mkdir build
 cd build
 cmake -G Ninja \
+    -C ../clang/cmake/caches/Release.cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="./install" \
     -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" \
-    -DLLVM_TARGETS_TO_BUILD="X86" \
+    -DLLVM_TARGETS_TO_BUILD="X86;AArch64" \
     -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
-    -DCOMPILER_RT_BUILD_ORC=OFF \
     -DLLVM_BUILD_LLVM_C_DYLIB=OFF \
     -DLLVM_BUILD_TOOLS=ON \
     -DLLVM_INCLUDE_TESTS=OFF \
     -DLLVM_INCLUDE_EXAMPLES=OFF \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
-    -DLLVM_ENABLE_ASSERTIONS=OFF \
-    -DLLVM_RELEASE_ENABLE_LTO=OFF \
-    -DLLVM_RELEASE_ENABLE_PGO=OFF \
-    -DLLVM_ENABLE_PIC=ON \
     ../llvm
 
 ninja -j8

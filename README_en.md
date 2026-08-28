@@ -72,7 +72,7 @@ Improvements over Goron:
  - ...
  ```
 
-## Generate VS2026 debug project (X86+AArch64 Targets)
+## Generate VS2026 debug project (x86+AArch64 Targets)
 
 - Windows + Visual Studio 18 2026 + vcpkg
 
@@ -166,54 +166,46 @@ ninja install
 
 ```
 
-## Compilation (macOS AArch64 runtime with AArch64+X86 Targets)
+## Compilation (macOS AArch64 runtime with AArch64+x86 Targets)
 - macOS + XCode Command Tools + brew + ninja
 ```
 xcode-select --install
 brew install ninja
 
-cmake -G Ninja \
+cmake -C ../clang/cmake/caches/Release.cmake \
+  -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="./install" \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" \
   -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
-  -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
-  -DCOMPILER_RT_BUILD_ORC=OFF \
   -DLLVM_BUILD_LLVM_C_DYLIB=ON \
   -DLLVM_BUILD_TOOLS=ON \
   -DLLVM_INCLUDE_TESTS=OFF \
   -DLLVM_INCLUDE_EXAMPLES=OFF \
   -DLLVM_INCLUDE_BENCHMARKS=OFF \
-  -DLLVM_ENABLE_ASSERTIONS=OFF \
-  -DLLVM_RELEASE_ENABLE_LTO=OFF \
-  -DLLVM_RELEASE_ENABLE_PGO=OFF \
   ../llvm
 
 ninja
 ninja install
 ```
 
-## Compilation (Linux x86_64 Target)
+## Compilation (Linux x86+AArch64 Target)
 ```
 mkdir build
 cd build
 cmake -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX="./install" \
-  -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" \
-  -DLLVM_TARGETS_TO_BUILD="X86" \
-  -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
-  -DCOMPILER_RT_BUILD_ORC=OFF \
-  -DLLVM_BUILD_LLVM_C_DYLIB=OFF \
-  -DLLVM_BUILD_TOOLS=ON \
-  -DLLVM_INCLUDE_TESTS=OFF \
-  -DLLVM_INCLUDE_EXAMPLES=OFF \
-  -DLLVM_INCLUDE_BENCHMARKS=OFF \
-  -DLLVM_ENABLE_ASSERTIONS=OFF \
-  -DLLVM_RELEASE_ENABLE_LTO=OFF \
-  -DLLVM_RELEASE_ENABLE_PGO=OFF \
-  -DLLVM_ENABLE_PIC=ON \
-  ../llvm
+    -C ../clang/cmake/caches/Release.cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX="./install" \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" \
+    -DLLVM_TARGETS_TO_BUILD="X86;AArch64" \
+    -DLLVM_ENABLE_RUNTIMES="compiler-rt;openmp" \
+    -DLLVM_BUILD_LLVM_C_DYLIB=OFF \
+    -DLLVM_BUILD_TOOLS=ON \
+    -DLLVM_INCLUDE_TESTS=OFF \
+    -DLLVM_INCLUDE_EXAMPLES=OFF \
+    -DLLVM_INCLUDE_BENCHMARKS=OFF \
+    ../llvm
 
 ninja -j8
 ninja install
