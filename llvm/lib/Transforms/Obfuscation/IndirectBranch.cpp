@@ -50,7 +50,8 @@ struct IndirectBranch : public FunctionPass {
     return {"IndirectBranch"};
   }
 
-  void NumberBasicBlock(Module &M) {
+  bool NumberBasicBlock(Module &M) {
+    bool Changed = false;
     for (auto &F : M) {
       if (F.empty() || F.isWeakForLinker() ||
           F.getSection() == ".text.startup" ||
@@ -90,10 +91,11 @@ struct IndirectBranch : public FunctionPass {
     FunctionBrs.clear();
     BBAddrTargets.clear();
     BBKeys.clear();
+    RunOnFuncChanged = false;
 
-    NumberBasicBlock(M);
+    bool Changed = NumberBasicBlock(M);
     if (BBAddrTargets.empty()) {
-      return false;
+      return Changed;
     }
 
     PtrEncKey = RNG();
@@ -110,7 +112,7 @@ struct IndirectBranch : public FunctionPass {
     createPageTableArgs.PtrEncKey = PtrEncKey;
 
     createPageTable(createPageTableArgs);
-    return false;
+    return true;
   }
 
 
