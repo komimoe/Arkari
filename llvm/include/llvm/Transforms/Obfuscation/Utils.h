@@ -11,7 +11,8 @@
 #include <random>
 #include <vector>
 
-namespace llvm {
+using namespace llvm;
+
 struct CreatePageTableArgs {
   unsigned                           CountLoop;
   std::string                        GVNamePrefix;
@@ -42,7 +43,6 @@ struct BuildDecryptArgs {
 };
 
 IntegerType *getPageTableIntTy(Module &M);
-ConstantInt *getPageTableConstant(IntegerType *Ty, uint64_t Value);
 bool valueEscapes(Instruction *Inst);
 void fixStack(Function *f);
 CallBase *fixEH(CallBase *CB);
@@ -55,5 +55,4 @@ Value *buildPageTableDecryptIR(const BuildDecryptArgs &args);
 Value *encryptConstant(Constant *plainConstant, Instruction *insertBefore,
                        std::mt19937_64 &rng, unsigned level);
 APInt getRandomAPIntStd(unsigned BitWidth, std::mt19937_64 &RNG);
-}
 #endif
