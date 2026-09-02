@@ -14,6 +14,7 @@
 #include <random>
 #include <algorithm>
 
+namespace llvm {
 // Shamefully borrowed from ../Scalar/RegToMem.cpp :(
 bool valueEscapes(Instruction *Inst) {
   BasicBlock *BB = Inst->getParent();
@@ -541,11 +542,11 @@ Value *encryptConstant(Constant *plainConstant, Instruction *insertBefore,
     return plainConstant;
   }
   unsigned BitWidth = plainConstant->getType()->getPrimitiveSizeInBits().
-                                 getFixedValue();
+                                     getFixedValue();
   if (BitWidth < 8) {
     return plainConstant;
   }
-  APInt APKey = getRandomAPIntStd(BitWidth, rng);
+  APInt      APKey = getRandomAPIntStd(BitWidth, rng);
   const auto Key = ConstantInt::get(IntegerType::get(Ctx, BitWidth), APKey);
 
   const auto PlainCast =
@@ -585,18 +586,19 @@ Value *encryptConstant(Constant *plainConstant, Instruction *insertBefore,
 APInt getRandomAPIntStd(unsigned BitWidth, std::mt19937_64 &RNG) {
   if (BitWidth == 0)
     return APInt(1, 0);
-  unsigned NumWords = APInt::getNumWords(BitWidth);
+  unsigned              NumWords = APInt::getNumWords(BitWidth);
   std::vector<uint64_t> Words;
   Words.reserve(NumWords);
   for (unsigned i = 0; i < NumWords; ++i) {
     Words.push_back(RNG());
   }
-  APInt Result(BitWidth, Words);
+  APInt    Result(BitWidth, Words);
   unsigned BitsInLastWord = BitWidth % 64;
   if (BitsInLastWord != 0) {
     uint64_t Mask = (1ULL << BitsInLastWord) - 1;
-    APInt MaskAPInt(BitWidth, Mask);
+    APInt    MaskAPInt(BitWidth, Mask);
     Result &= MaskAPInt;
   }
   return Result;
+}
 }
