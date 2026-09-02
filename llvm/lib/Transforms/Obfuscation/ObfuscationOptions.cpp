@@ -8,8 +8,8 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/DiagnosticInfo.h"
 #include "llvm/Support/JSON.h"
-
-#include <llvm/Support/VirtualFileSystem.h>
+#include "llvm/Support/VirtualFileSystem.h"
+#include "llvm/Support/IOSandbox.h"
 
 using namespace llvm;
 
@@ -56,6 +56,7 @@ std::shared_ptr<ObfuscationOptions> ObfuscationOptions::readConfigFile(
   if (FileName.str().empty()) {
     return result;
   }
+  auto BypassSandbox = sys::sandbox::scopedDisable();
   auto vfs = llvm::vfs::getRealFileSystem();
 
   if (!vfs->exists(FileName)) {
