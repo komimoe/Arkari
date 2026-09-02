@@ -554,7 +554,8 @@ Value *encryptConstant(Constant *plainConstant, Instruction *insertBefore,
   auto      Enc = ConstantExpr::getSub(PlainCast, Key);
   Constant *XorKey = nullptr;
   if (level) {
-    XorKey = llvm::ConstantInt::get(Key->getType(), rng());
+    XorKey = llvm::ConstantInt::get(Key->getType(),
+                                    getRandomAPIntStd(BitWidth, rng));
     Enc = ConstantExpr::getXor(Enc, XorKey);
     if (level > 1) {
       Enc = ConstantExpr::getXor(
